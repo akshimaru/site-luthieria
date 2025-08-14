@@ -7,8 +7,17 @@ const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 require('dotenv').config();
 
+// Validar variáveis de ambiente
+const { validateEnv } = require('./config/env-validator');
+validateEnv();
+
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Trust proxy para VPS/EasyPanel
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
 
 // Importar rotas
 const indexRoutes = require('./routes/index');
@@ -29,11 +38,13 @@ app.use(helmet({
   }
 }));
 
-// Rate limiting
+// Rate limiting - mais rigoroso em produção
 const limiter = rateLimit({
-  windowMs: 5 * 60 * 1000, // 5 minutos
-  max: 1000, // máximo 1000 requests por IP (mais permissivo para desenvolvimento)
-  message: 'Muitas requisições deste IP, tente novamente em alguns minutos.'
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: process.env.NODE_ENV === 'production' ? 100 : 1000, // 100 req/IP em produção
+  message: 'Muitas requisições deste IP, tente novamente em alguns minutos.',
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 app.use(limiter);
 
@@ -42,12 +53,15 @@ app.use(compression());
 
 // Configuração de sessões
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'prime-luthieria-admin-secret-key-2024',
+  secret: process.env.SESSION_SECRET || 'prime-luthieria-fallback-secret',
   resave: false,
   saveUninitialized: false,
+  name: 'prime.session.id',
   cookie: {
-    secure: process.env.NODE_ENV === 'production', // true para HTTPS em produção
-    maxAge: 24 * 60 * 60 * 1000 // 24 horas
+    secure: process.env.NODE_ENV === 'production' && process.env.SECURE_COOKIES === 'true',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000, // 24 horas
+    sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax'
   }
 }));
 
