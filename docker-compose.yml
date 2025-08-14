@@ -8,6 +8,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
+      - SESSION_SECRET=prime_luthieria_vps_secret_key_2025
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "node", "healthcheck.js"]
@@ -16,7 +17,7 @@ services:
       retries: 3
       start_period: 40s
     volumes:
-      - ./config:/app/config
+      - ./config:/app/config:rw
     networks:
       - app-network
 

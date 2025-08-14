@@ -8,7 +8,7 @@ const session = require('express-session');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 // Importar rotas
 const indexRoutes = require('./routes/index');
@@ -104,10 +104,15 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-  console.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
-  if (process.env.NODE_ENV !== 'production') {
-    console.log(`Acesse: http://localhost:${PORT}`);
+  console.log(`🚀 Servidor Prime Luthieria iniciado`);
+  console.log(`📡 Porta: ${PORT}`);
+  console.log(`🌍 Ambiente: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🐳 Host: 0.0.0.0 (Docker/VPS Ready)`);
+  
+  if (process.env.NODE_ENV === 'production') {
+    console.log(`✅ Aplicação rodando em modo PRODUÇÃO`);
+  } else {
+    console.log(`🔧 Modo desenvolvimento - Acesse: http://localhost:${PORT}`);
   }
 });
 
