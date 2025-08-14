@@ -1,23 +1,37 @@
 {
-  "name": "site-luthieria",
-  "version": "0.1.0",
-  "private": true,
+  "name": "prime-luthieria",
+  "version": "1.0.0",
+  "description": "Site oficial da Prime Luthieria - Especialistas em manutenção e reparos de instrumentos musicais",
+  "main": "app.js",
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start"
+    "start": "NODE_ENV=production node app.js",
+    "dev": "nodemon app.js",
+    "build": "echo 'Build completed'",
+    "test": "echo 'No tests specified'",
+    "docker:build": "docker build -t prime-luthieria .",
+    "docker:run": "docker run -p 3000:3000 prime-luthieria"
   },
+  "keywords": [
+    "luthieria",
+    "instrumentos musicais",
+    "manutenção",
+    "reparos"
+  ],
+  "author": "Prime Luthieria",
+  "license": "MIT",
   "dependencies": {
-    "next": "15.4.6"
+    "compression": "^1.7.4",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-rate-limit": "^6.7.0",
+    "express-session": "^1.18.2",
+    "express-validator": "^6.15.0",
+    "helmet": "^6.1.5",
+    "nodemailer": "^6.9.1"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
-    "eslint": "^9",
-    "eslint-config-next": "15.4.6",
-    "@eslint/eslintrc": "^3"
+    "nodemon": "^3.1.10"
   }
 }

@@ -1,0 +1,24 @@
+{
+  "name": "prime-luthieria",
+  "type": "app",
+  "framework": "nodejs",
+  "buildCommand": "npm install --production",
+  "startCommand": "npm start",
+  "port": 3000,
+  "environment": {
+    "NODE_ENV": "production",
+    "PORT": "3000"
+  },
+  "healthCheck": {
+    "path": "/",
+    "interval": 30,
+    "timeout": 10
+  },
+  "volumes": [
+    {
+      "source": "./config",
+      "target": "/app/config",
+      "type": "bind"
+    }
+  ]
+}

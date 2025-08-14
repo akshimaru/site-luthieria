@@ -1,0 +1,120 @@
+<div class="team-management">
+    <div class="admin-info">
+        <h3>👥 Gerenciamento de Equipe</h3>
+        <p>Gerencie os membros da equipe Prime Luthieria. Aqui você pode visualizar as informações atuais da equipe.</p>
+    </div>
+    
+    <div class="current-team">
+        <h3>Equipe Atual</h3>
+        
+        <% siteData.about.team.forEach((member, index) => { %>
+        <div class="team-member-card">
+            <div class="member-info">
+                <img src="<%= member.image %>" alt="<%= member.name %>" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+                <div class="member-details">
+                    <h4><%= member.name %></h4>
+                    <p class="role"><%= member.role %></p>
+                    <p class="description"><%= member.description %></p>
+                    <div class="specialties">
+                        <strong>Especialidades:</strong>
+                        <% member.specialties.forEach(specialty => { %>
+                        <span class="specialty-tag"><%= specialty %></span>
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% }); %>
+    </div>
+    
+    <div class="management-actions">
+        <div class="alert alert-info">
+            <h4>🔧 Funcionalidade em Desenvolvimento</h4>
+            <p>A funcionalidade completa de edição da equipe será implementada em breve. Por enquanto, você pode editar os dados diretamente no arquivo de configuração localizado em: <code>config/site-data.json</code></p>
+            <p>Para adicionar ou editar membros da equipe:</p>
+            <ol>
+                <li>Localize a seção "about" → "team" no arquivo JSON</li>
+                <li>Adicione ou modifique os dados dos membros</li>
+                <li>Salve o arquivo e reinicie o servidor</li>
+            </ol>
+        </div>
+        
+        <div class="quick-actions">
+            <a href="/admin/about" class="btn btn-primary">Editar Página Sobre</a>
+            <a href="/admin/dashboard" class="btn btn-secondary">Voltar ao Dashboard</a>
+        </div>
+    </div>
+</div>
+
+<style>
+.team-member-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+}
+
+.member-info {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.member-details h4 {
+    margin: 0 0 5px 0;
+    color: #2c3e50;
+}
+
+.role {
+    color: #667eea;
+    font-weight: 500;
+    margin: 0 0 10px 0;
+}
+
+.description {
+    color: #666;
+    margin: 0 0 15px 0;
+    line-height: 1.5;
+}
+
+.specialties {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.specialty-tag {
+    background-color: #f8f9fa;
+    color: #495057;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    border: 1px solid #dee2e6;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+}
+
+.quick-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .member-info {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .quick-actions {
+        flex-direction: column;
+    }
+}
+</style>

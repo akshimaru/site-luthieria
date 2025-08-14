@@ -1,0 +1,176 @@
+{
+  "admin": {
+    "username": "admin",
+    "password": "prime123"
+  },
+  "site": {
+    "name": "Serviços Prime Luthieria",
+    "tagline": "Especialistas em Manutenção e Reparos de Instrumentos Musicais",
+    "description": "Serviços Prime Luthieria oferece serviços especializados em manutenção, reparos e ajustes de instrumentos musicais. Qualidade e tradição há mais de 10 anos.",
+    "phone": "61981126864",
+    "whatsapp_message": "Oi vi seu site gostaria de fazer uma manutenção em meu instrumento.",
+    "email": "servicosprime.work@gmail.com",
+    "address": {
+      "street": "Rua 13 norte lote 01/03 Loja 24 - Vitrinni Shopping",
+      "neighborhood": "Águas Claras",
+      "city": "Brasília",
+      "state": "DF",
+      "zipcode": "71909-720"
+    },
+    "business_hours": {
+      "weekdays": "Segunda a Sexta: 8h às 18h",
+      "saturday": "Sábado: 8h às 18h",
+      "sunday": "Domingo: Fechado"
+    },
+    "social_media": {
+      "instagram": "https://instagram.com/luthieriabrasilia",
+      "facebook": "https://facebook.com",
+      "youtube": "https://youtube.com/@services.prime.luthieria",
+      "twitter": "https://x.com"
+    }
+  },
+  "hero": {
+    "title": "Especialista em Instrumentos de cordas",
+    "subtitle": "Cuidamos do seu instrumento com a dedicação e técnica que ele merece. Mais de 7 anos transformando música em arte.",
+    "background_image": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+  },
+  "about": {
+    "title": "Sobre a Prime Luthieria",
+    "description": "Conheça nossa história, nossa equipe e nosso compromisso com a excelência em luthieria",
+    "history": {
+      "title": "Nossa História",
+      "content": "A Prime Luthieria nasceu em 2014 da paixão de dois amigos músicos que sentiam a necessidade de um serviço especializado e confiável para a manutenção de seus instrumentos. O que começou como um pequeno workshop se transformou em uma das referências em luthieria da região.",
+      "image": "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "founded_year": "2014"
+    },
+    "team": [
+      {
+        "name": "João Silva",
+        "role": "Fundador & Luthier Principal",
+        "description": "Mais de 15 anos de experiência em luthieria. Especialista em guitarras vintage e restaurações complexas.",
+        "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+        "specialties": [
+          "Guitarras",
+          "Restauração"
+        ]
+      },
+      {
+        "name": "Carlos Santos",
+        "role": "Co-fundador & Especialista em Baixos",
+        "description": "Expert em instrumentos de corda graves, setup profissional e eletrônica de instrumentos musicais.",
+        "image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+        "specialties": [
+          "Baixos",
+          "Eletrônica"
+        ]
+      },
+      {
+        "name": "Ana Costa",
+        "role": "Especialista em Violões",
+        "description": "Formada em luteria clássica, especialista em violões acústicos, clássicos e instrumentos de nylon.",
+        "image": "https://images.unsplash.com/photo-1494790108755-2616c7e7e36e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+        "specialties": [
+          "Violões",
+          "Acústicos"
+        ]
+      }
+    ],
+    "mission": "Proporcionar aos músicos serviços especializados de luthieria com qualidade técnica excepcional, preservando e potencializando o melhor de cada instrumento musical.",
+    "vision": "Ser reconhecida como a principal referência em luthieria da região, expandindo nossos serviços e mantendo sempre os mais altos padrões de qualidade e atendimento.",
+    "values": "Paixão pela música, respeito ao instrumento, honestidade nas relações, busca constante pela perfeição técnica e compromisso com a satisfação de nossos clientes."
+  },
+  "services": [
+    {
+      "id": 1,
+      "name": "Manutenção Preventiva",
+      "description": "Limpeza completa, ajuste de cordas, regulagem de braço e verificação geral do instrumento.",
+      "price": "A partir de R$ 80",
+      "image": "https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      "id": 2,
+      "name": "Troca de Trastes",
+      "description": "Substituição completa ou parcial de trastes desgastados, nivelamento e polimento.",
+      "price": "A partir de R$ 250",
+      "image": "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      "id": 3,
+      "name": "Regulagem de Captadores",
+      "description": "Ajuste de altura e ângulo dos captadores para otimizar o som do instrumento.",
+      "price": "A partir de R$ 60",
+      "image": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      "id": 4,
+      "name": "Reparo de Rachaduras",
+      "description": "Conserto especializado de rachaduras no corpo, braço ou headstock do instrumento.",
+      "price": "A partir de R$ 150",
+      "image": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      "id": 5,
+      "name": "Setup Completo",
+      "description": "Ajuste completo incluindo altura das cordas, curvatura do braço, entonação e afinação.",
+      "price": "A partir de R$ 120",
+      "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      "id": 6,
+      "name": "Verniz e Acabamento",
+      "description": "Restauração do verniz, polimento e acabamento profissional do instrumento.",
+      "price": "A partir de R$ 300",
+      "image": "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+    }
+  ],
+  "gallery": [
+    {
+      "id": 1,
+      "title": "Restauração Guitarra Vintage",
+      "before": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      "after": "https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      "description": "Restauração completa de guitarra vintage dos anos 70"
+    },
+    {
+      "id": 2,
+      "title": "Setup Baixo 4 Cordas",
+      "before": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      "after": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      "description": "Setup completo e troca de trastes em baixo Fender"
+    },
+    {
+      "id": 3,
+      "title": "Reparo Violão Clássico",
+      "before": "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      "after": "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      "description": "Reparo de rachadura e restauração de verniz"
+    }
+  ],
+  "faq": [
+    {
+      "id": 1,
+      "question": "Quanto tempo demora um serviço de luthieria?",
+      "answer": "O tempo varia conforme o serviço: setup simples leva 1-2 dias, reparos médios de 3-7 dias, e restaurações completas podem levar de 2-4 semanas. Sempre informamos o prazo antes de iniciar."
+    },
+    {
+      "id": 2,
+      "question": "Vocês trabalham com todos os tipos de instrumentos?",
+      "answer": "Sim! Atendemos guitarras, baixos, violões, violas, violinos, banjos, mandolins e outros instrumentos de corda. Temos experiência com instrumentos acústicos e elétricos."
+    },
+    {
+      "id": 3,
+      "question": "Como funciona o orçamento?",
+      "answer": "O orçamento é totalmente gratuito! Fazemos uma avaliação completa do seu instrumento e apresentamos um orçamento detalhado sem nenhum custo."
+    },
+    {
+      "id": 4,
+      "question": "Os serviços têm garantia?",
+      "answer": "Sim! Todos os nossos serviços possuem garantia de 90 dias contra defeitos de execução. Além disso, oferecemos suporte técnico gratuito por 6 meses."
+    },
+    {
+      "id": 5,
+      "question": "Posso acompanhar o andamento do serviço?",
+      "answer": "Claro! Enviamos fotos e atualizações pelo WhatsApp durante todo o processo, mantendo você informado sobre cada etapa do trabalho."
+    }
+  ]
+}

@@ -1,0 +1,214 @@
+<!-- Hero Section -->
+<section class="cta-section">
+    <div class="container text-center">
+        <h1 class="page-hero-title"><%= siteData.about.title %></h1>
+        <p class="page-hero-subtitle">
+            <%= siteData.about.description %>
+        </p>
+    </div>
+</section>
+
+<!-- Nossa História -->
+<section class="section-padding bg-white">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-content">
+                <h2 class="section-title"><%= siteData.about.history.title %></h2>
+                <p class="about-text">
+                    <%= siteData.about.history.content %>
+                </p>
+            </div>
+            <div class="about-image">
+                <img src="<%= siteData.about.history.image %>" alt="Oficina Prime Luthieria" class="image-rounded">
+                <div class="year-badge">
+                    <div class="year-number"><%= siteData.about.history.founded_year %></div>
+                    <div class="year-label">Ano de Fundação</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Nossa Equipe -->
+<section class="section-padding bg-primary-light">
+    <div class="container">
+        <div class="text-center mb-16">
+            <h2 class="section-title">Nossa Equipe</h2>
+            <p class="section-subtitle">
+                Conheça os profissionais especializados que cuidam do seu instrumento com dedicação e expertise
+            </p>
+        </div>
+        
+        <div class="team-grid">
+            <% siteData.about.team.forEach(function(member) { %>
+            <div class="team-card">
+                <img src="<%= member.image %>" alt="<%= member.name %>" class="team-photo">
+                <h3 class="team-name"><%= member.name %></h3>
+                <p class="team-role"><%= member.role %></p>
+                <p class="team-description">
+                    <%= member.description %>
+                </p>
+                <div class="team-tags">
+                    <% member.specialties.forEach(function(specialty) { %>
+                    <span class="tag"><%= specialty %></span>
+                    <% }); %>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- Missão, Visão e Valores -->
+<section class="section-padding bg-white">
+    <div class="container">
+        <div class="mission-grid">
+            <!-- Missão -->
+            <div class="mission-card">
+                <div class="mission-icon">
+                    <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+                <h3 class="mission-title">Nossa Missão</h3>
+                <p class="mission-text">
+                    <%= siteData.about.mission %>
+                </p>
+            </div>
+            
+            <!-- Visão -->
+            <div class="mission-card">
+                <div class="mission-icon">
+                    <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                    </svg>
+                </div>
+                <h3 class="mission-title">Nossa Visão</h3>
+                <p class="mission-text">
+                    <%= siteData.about.vision %>
+                </p>
+            </div>
+            
+            <!-- Valores -->
+            <div class="mission-card">
+                <div class="mission-icon">
+                    <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="mission-title">Nossos Valores</h3>
+                <p class="mission-text">
+                    <%= siteData.about.values %>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Nosso Workshop -->
+<section class="section-padding bg-primary-light">
+    <div class="container">
+        <div class="about-grid">
+            <div class="workshop-image">
+                <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Workshop Prime Luthieria" class="image-rounded">
+                <div class="area-badge">
+                    <div class="area-number">300m²</div>
+                    <div class="area-label">de área técnica</div>
+                </div>
+            </div>
+            <div class="about-content">
+                <h2 class="section-title">Nosso Workshop</h2>
+                <p class="about-text">
+                    Nosso workshop foi cuidadosamente projetado para oferecer o melhor ambiente para o trabalho de luthieria. 
+                    Com mais de 300m² de área técnica, contamos com equipamentos de última geração e ferramentas especializadas.
+                </p>
+                
+                <div class="checklist">
+                    <div class="check-item">
+                        <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Ambiente climatizado e controlado</span>
+                    </div>
+                    <div class="check-item">
+                        <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Ferramentas de alta precisão</span>
+                    </div>
+                    <div class="check-item">
+                        <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Área específica para cada tipo de serviço</span>
+                    </div>
+                    <div class="check-item">
+                        <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span>Sistema de documentação fotográfica</span>
+                    </div>
+                </div>
+                
+                <a href="/contato" class="btn btn-primary">
+                    Agende uma Visita
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Certificações e Prêmios -->
+<section class="section-padding bg-white">
+    <div class="container">
+        <div class="text-center mb-16">
+            <h2 class="section-title">Reconhecimento</h2>
+            <p class="section-subtitle">
+                Nosso trabalho é reconhecido por músicos profissionais e instituições do setor musical
+            </p>
+        </div>
+        
+        <div class="recognition-grid">
+            <div class="recognition-card">
+                <div class="mission-icon">
+                    <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                    </svg>
+                </div>
+                <h3 class="recognition-title">Certificação</h3>
+                <p class="recognition-text">Associação Brasileira de Luthiers</p>
+            </div>
+            
+            <div class="recognition-card">
+                <div class="mission-icon">
+                    <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                    </svg>
+                </div>
+                <h3 class="recognition-title">Prêmio</h3>
+                <p class="recognition-text">Melhor Luthieria 2023</p>
+            </div>
+            
+            <div class="recognition-card">
+                <div class="mission-icon">
+                    <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="recognition-title">Parceiros</h3>
+                <p class="recognition-text">Lojas de música regionais</p>
+            </div>
+            
+            <div class="recognition-card">
+                <div class="mission-icon">
+                    <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+                    </svg>
+                </div>
+                <h3 class="recognition-title">Artistas</h3>
+                <p class="recognition-text">Músicos profissionais atendidos</p>
+            </div>
+        </div>
+    </div>
+</section>

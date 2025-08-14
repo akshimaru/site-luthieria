@@ -1,0 +1,142 @@
+<% if (typeof success !== 'undefined' && success) { %>
+<div class="alert alert-success">
+    Informações salvas com sucesso!
+</div>
+<% } %>
+
+<% if (typeof error !== 'undefined' && error) { %>
+<div class="alert alert-error">
+    Erro ao salvar informações. Tente novamente.
+</div>
+<% } %>
+
+<form method="POST" action="/admin/site-info" class="admin-form">
+    <div class="form-section">
+        <h3>Informações Básicas</h3>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="site_name">Nome do Site:</label>
+                <input type="text" id="site_name" name="site_name" value="<%= siteData.site.name %>" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="tagline">Slogan:</label>
+                <input type="text" id="tagline" name="tagline" value="<%= siteData.site.tagline %>" required>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Descrição:</label>
+            <textarea id="description" name="description" rows="3" required><%= siteData.site.description %></textarea>
+        </div>
+    </div>
+    
+    <div class="form-section">
+        <h3>Contato</h3>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="phone">Telefone/WhatsApp:</label>
+                <input type="text" id="phone" name="phone" value="<%= siteData.site.phone %>" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="<%= siteData.site.email %>" required>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="whatsapp_message">Mensagem WhatsApp:</label>
+            <textarea id="whatsapp_message" name="whatsapp_message" rows="2" required><%= siteData.site.whatsapp_message %></textarea>
+        </div>
+    </div>
+    
+    <div class="form-section">
+        <h3>Endereço</h3>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="street">Rua:</label>
+                <input type="text" id="street" name="street" value="<%= siteData.site.address.street %>" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="neighborhood">Bairro:</label>
+                <input type="text" id="neighborhood" name="neighborhood" value="<%= siteData.site.address.neighborhood %>" required>
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="city">Cidade:</label>
+                <input type="text" id="city" name="city" value="<%= siteData.site.address.city %>" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="state">Estado:</label>
+                <input type="text" id="state" name="state" value="<%= siteData.site.address.state %>" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="zipcode">CEP:</label>
+                <input type="text" id="zipcode" name="zipcode" value="<%= siteData.site.address.zipcode %>" required>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-section">
+        <h3>Horário de Funcionamento</h3>
+        
+        <div class="form-group">
+            <label for="weekdays">Segunda a Sexta:</label>
+            <input type="text" id="weekdays" name="weekdays" value="<%= siteData.site.business_hours.weekdays %>" required>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="saturday">Sábado:</label>
+                <input type="text" id="saturday" name="saturday" value="<%= siteData.site.business_hours.saturday %>" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="sunday">Domingo:</label>
+                <input type="text" id="sunday" name="sunday" value="<%= siteData.site.business_hours.sunday %>" required>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-section">
+        <h3>Redes Sociais</h3>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="instagram">Instagram:</label>
+                <input type="url" id="instagram" name="instagram" value="<%= siteData.site.social_media.instagram %>">
+            </div>
+            
+            <div class="form-group">
+                <label for="facebook">Facebook:</label>
+                <input type="url" id="facebook" name="facebook" value="<%= siteData.site.social_media.facebook %>">
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="youtube">YouTube:</label>
+                <input type="url" id="youtube" name="youtube" value="<%= siteData.site.social_media.youtube %>">
+            </div>
+            
+            <div class="form-group">
+                <label for="twitter">Twitter:</label>
+                <input type="url" id="twitter" name="twitter" value="<%= siteData.site.social_media.twitter %>">
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-actions">
+        <button type="submit" class="btn btn-success">Salvar Alterações</button>
+        <a href="/admin/dashboard" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form>

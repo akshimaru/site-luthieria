@@ -1,0 +1,191 @@
+<!-- Hero Section -->
+<section class="hero" style="background-image: url('<%= siteData.hero.background_image %>');">
+    <div class="hero-content">
+        <div class="container">
+            <h1><%= siteData.hero.title %></h1>
+            <p><%= siteData.hero.subtitle %></p>
+            <div class="hero-buttons">
+                <a href="/servicos" class="btn-primary">
+                    Nossos Serviços
+                </a>
+                <a href="/contato" class="btn-secondary">
+                    Solicitar Orçamento
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <span class="animate-bounce">⬇</span>
+    </div>
+</section>
+
+<!-- Services Preview -->
+<section class="section-padding bg-white">
+    <div class="container">
+        <div class="text-center mb-16">
+            <h2 class="section-title">Nossos Serviços</h2>
+            <p class="section-subtitle">
+                Oferecemos uma gama completa de serviços especializados para manter seu instrumento sempre em perfeitas condições
+            </p>
+        </div>
+        
+        <div class="services-grid">
+            <% siteData.services.slice(0, 3).forEach(function(service) { %>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="service-title"><%= service.name %></h3>
+                <p class="service-description"><%= service.description %></p>
+                <span class="service-price"><%= service.price %></span>
+            </div>
+            <% }); %>
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="/servicos" class="btn-primary">
+                Ver Todos os Serviços
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- About Preview -->
+<section class="section-padding bg-primary-light">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-content">
+                <h2 class="section-title">Tradição e Expertise</h2>
+                <p class="about-text">
+                    Com mais de 10 anos de experiência, a Prime Luthieria se estabeleceu como referência em 
+                    manutenção e reparos de instrumentos musicais. Nossa equipe combina técnicas tradicionais 
+                    com conhecimentos modernos para oferecer o melhor cuidado ao seu instrumento.
+                </p>
+                <p class="about-text">
+                    Cada instrumento que passa por nossas mãos recebe atenção individual e cuidados específicos, 
+                    garantindo que você tenha sempre a melhor experiência sonora possível.
+                </p>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Anos de Experiência</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Instrumentos Atendidos</div>
+                    </div>
+                </div>
+                <a href="/sobre" class="btn-secondary">
+                    Conheça Nossa História
+                </a>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1516924962500-2b4b3b99ea02?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Luthier trabalhando" class="image-rounded">
+                <div class="rating-card">
+                    <div class="rating-stars">
+                        <div class="stars">
+                            <svg class="star" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <svg class="star" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <svg class="star" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <svg class="star" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <svg class="star" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                        </div>
+                        <span class="rating-text">4.9/5 - 127 avaliações</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Preview -->
+<section class="section-padding bg-white">
+    <div class="container">
+        <div class="text-center mb-16">
+            <h2 class="section-title">Nossos Trabalhos</h2>
+            <p class="section-subtitle">
+                Veja alguns exemplos dos nossos trabalhos realizados. Cada instrumento recebe cuidado especial e atenção aos detalhes.
+            </p>
+        </div>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Restauração Guitarra Vintage" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <div class="gallery-content">
+                            <h3 class="gallery-title">Restauração Completa</h3>
+                            <p class="gallery-subtitle">Guitarra Vintage dos anos 70</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="https://images.unsplash.com/photo-1459305272254-33ac53d2d350?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Setup Baixo Fender" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <div class="gallery-content">
+                            <h3 class="gallery-title">Setup Profissional</h3>
+                            <p class="gallery-subtitle">Baixo Fender 4 Cordas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Reparo Violão Clássico" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <div class="gallery-content">
+                            <h3 class="gallery-title">Reparo Especializado</h3>
+                            <p class="gallery-subtitle">Violão Clássico</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="/galeria" class="btn-primary">
+                Ver Galeria Completa
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container text-center">
+        <h2 class="cta-title">
+            Seu Instrumento Merece o Melhor Cuidado
+        </h2>
+        <p class="cta-subtitle">
+            Entre em contato conosco e solicite um orçamento personalizado. 
+            Nossos especialistas estão prontos para cuidar do seu instrumento.
+        </p>
+        <div class="cta-buttons">
+            <a href="/contato" class="btn-primary">
+                Solicitar Orçamento
+            </a>
+            <a href="tel:+5511999999999" class="btn-outline">
+                Ligar Agora
+            </a>
+        </div>
+    </div>
+</section>

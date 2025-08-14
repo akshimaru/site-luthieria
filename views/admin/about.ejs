@@ -1,0 +1,82 @@
+<% if (typeof success !== 'undefined' && success) { %>
+<div class="alert alert-success">
+    Informações da página Sobre salvas com sucesso!
+</div>
+<% } %>
+
+<% if (typeof error !== 'undefined' && error) { %>
+<div class="alert alert-error">
+    Erro ao salvar informações. Tente novamente.
+</div>
+<% } %>
+
+<form method="POST" action="/admin/about" class="admin-form">
+    <div class="form-section">
+        <h3>Informações Gerais da Página Sobre</h3>
+        
+        <div class="form-group">
+            <label for="title">Título da Página:</label>
+            <input type="text" id="title" name="title" value="<%= siteData.about.title %>" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Descrição da Página:</label>
+            <textarea id="description" name="description" rows="2" required><%= siteData.about.description %></textarea>
+        </div>
+    </div>
+    
+    <div class="form-section">
+        <h3>Nossa História</h3>
+        
+        <div class="form-group">
+            <label for="history_title">Título da Seção História:</label>
+            <input type="text" id="history_title" name="history_title" value="<%= siteData.about.history.title %>" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="history_content">Conteúdo da História:</label>
+            <textarea id="history_content" name="history_content" rows="5" required><%= siteData.about.history.content %></textarea>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="history_image">URL da Imagem da História:</label>
+                <input type="url" id="history_image" name="history_image" value="<%= siteData.about.history.image %>" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="founded_year">Ano de Fundação:</label>
+                <input type="number" id="founded_year" name="founded_year" value="<%= siteData.about.history.founded_year %>" required>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-section">
+        <h3>Missão, Visão e Valores</h3>
+        
+        <div class="form-group">
+            <label for="mission">Missão:</label>
+            <textarea id="mission" name="mission" rows="3" required><%= siteData.about.mission %></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="vision">Visão:</label>
+            <textarea id="vision" name="vision" rows="3" required><%= siteData.about.vision %></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="values">Valores:</label>
+            <textarea id="values" name="values" rows="3" required><%= siteData.about.values %></textarea>
+        </div>
+    </div>
+    
+    <div class="form-actions">
+        <button type="submit" class="btn btn-success">Salvar Alterações</button>
+        <a href="/admin/dashboard" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form>
+
+<div class="admin-note">
+    <h4>📝 Nota</h4>
+    <p>Para gerenciar os membros da equipe, acesse a seção <a href="/admin/team">Equipe</a> no menu lateral.</p>
+</div>

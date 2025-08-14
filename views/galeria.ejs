@@ -1,0 +1,363 @@
+<!-- Hero Section -->
+<section class="cta-section">
+    <div class="container text-center">
+        <h1 class="page-hero-title">Galeria de Trabalhos</h1>
+        <p class="page-hero-subtitle">
+            Veja alguns exemplos dos nossos trabalhos realizados. Cada projeto é único e recebe atenção especial aos detalhes.
+        </p>
+    </div>
+</section>
+
+<!-- Galeria Principal -->
+<section class="section-padding bg-white">
+    <div class="container">
+        <div class="gallery-grid">
+            <% trabalhos.forEach(function(trabalho) { %>
+            <div class="gallery-item">
+                <div class="gallery-card">
+                    <h3 class="gallery-title"><%= trabalho.title %></h3>
+                    <p class="gallery-description"><%= trabalho.description %></p>
+                    
+                    <div class="before-after-container">
+                        <div class="before-after-item">
+                            <h4>Antes</h4>
+                            <img src="<%= trabalho.before %>" alt="<%= trabalho.title %> - Antes" class="gallery-image">
+                        </div>
+                        <div class="before-after-item">
+                            <h4>Depois</h4>
+                            <img src="<%= trabalho.after %>" alt="<%= trabalho.title %> - Depois" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+    </div>
+</section>
+                                <p class="text-sm">Baixo Fender 4 Cordas</p>
+                                <button class="mt-4 bg-gold-600 hover:bg-gold-700 px-4 py-2 rounded-lg transition-colors" onclick="openLightbox('setup-baixo-fender')">
+                                    Ver Detalhes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 3 - Reparo -->
+            <div class="gallery-item" data-category="reparo">
+                <div class="group cursor-pointer">
+                    <div class="relative overflow-hidden rounded-xl bg-gray-200 aspect-square">
+                        <img src="/images/galeria/violao-reparo.jpg" alt="Reparo Violão" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" loading="lazy">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div class="text-white text-center">
+                                <h3 class="text-xl font-semibold mb-2">Reparo de Rachadura</h3>
+                                <p class="text-sm">Violão Clássico</p>
+                                <button class="mt-4 bg-gold-600 hover:bg-gold-700 px-4 py-2 rounded-lg transition-colors" onclick="openLightbox('reparo-violao-classico')">
+                                    Ver Detalhes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 4 - Customização -->
+            <div class="gallery-item" data-category="customizacao">
+                <div class="group cursor-pointer">
+                    <div class="relative overflow-hidden rounded-xl bg-gray-200 aspect-square">
+                        <img src="/images/galeria/guitarra-custom.jpg" alt="Customização Guitarra" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" loading="lazy">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div class="text-white text-center">
+                                <h3 class="text-xl font-semibold mb-2">Customização</h3>
+                                <p class="text-sm">Guitarra Stratocaster</p>
+                                <button class="mt-4 bg-gold-600 hover:bg-gold-700 px-4 py-2 rounded-lg transition-colors" onclick="openLightbox('custom-stratocaster')">
+                                    Ver Detalhes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 5 - Restauração -->
+            <div class="gallery-item" data-category="restauracao">
+                <div class="group cursor-pointer">
+                    <div class="relative overflow-hidden rounded-xl bg-gray-200 aspect-square">
+                        <img src="/images/galeria/banjo-restauracao.jpg" alt="Restauração Banjo" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" loading="lazy">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div class="text-white text-center">
+                                <h3 class="text-xl font-semibold mb-2">Restauração Banjo</h3>
+                                <p class="text-sm">Banjo Vintage dos anos 50</p>
+                                <button class="mt-4 bg-gold-600 hover:bg-gold-700 px-4 py-2 rounded-lg transition-colors" onclick="openLightbox('restauracao-banjo-vintage')">
+                                    Ver Detalhes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 6 - Setup -->
+            <div class="gallery-item" data-category="setup">
+                <div class="group cursor-pointer">
+                    <div class="relative overflow-hidden rounded-xl bg-gray-200 aspect-square">
+                        <img src="/images/galeria/violao-eletrico-setup.jpg" alt="Setup Violão Eletroacústico" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" loading="lazy">
+                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <div class="text-white text-center">
+                                <h3 class="text-xl font-semibold mb-2">Setup Completo</h3>
+                                <p class="text-sm">Violão Eletroacústico</p>
+                                <button class="mt-4 bg-gold-600 hover:bg-gold-700 px-4 py-2 rounded-lg transition-colors" onclick="openLightbox('setup-violao-eletrico')">
+                                    Ver Detalhes
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Botão Carregar Mais -->
+        <div class="text-center mt-12">
+            <button id="load-more" class="bg-primary-800 hover:bg-primary-900 text-white font-semibold px-8 py-4 rounded-lg transition-colors duration-300">
+                Carregar Mais Trabalhos
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Seção Antes/Depois -->
+<section class="py-20 bg-primary-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-serif font-bold text-primary-800 mb-4">Antes e Depois</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Veja a transformação completa de alguns dos nossos trabalhos mais marcantes
+            </p>
+        </div>
+        
+        <div class="space-y-16">
+            <% trabalhos.forEach((trabalho, index) => { %>
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                <div class="grid lg:grid-cols-2">
+                    <!-- Antes -->
+                    <div class="relative">
+                        <img src="<%= trabalho.antes %>" alt="<%= trabalho.titulo %> - Antes" class="w-full h-64 lg:h-80 object-cover">
+                        <div class="absolute top-4 left-4 bg-red-600 text-white px-4 py-2 rounded-lg font-semibold">
+                            ANTES
+                        </div>
+                    </div>
+                    <!-- Depois -->
+                    <div class="relative">
+                        <img src="<%= trabalho.depois %>" alt="<%= trabalho.titulo %> - Depois" class="w-full h-64 lg:h-80 object-cover">
+                        <div class="absolute top-4 left-4 bg-green-600 text-white px-4 py-2 rounded-lg font-semibold">
+                            DEPOIS
+                        </div>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <h3 class="text-2xl font-serif font-bold text-primary-800 mb-4"><%= trabalho.titulo %></h3>
+                    <p class="text-gray-600 text-lg"><%= trabalho.descricao %></p>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- Vídeos -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-serif font-bold text-primary-800 mb-4">Vídeos dos Trabalhos</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Acompanhe o processo de alguns dos nossos trabalhos através destes vídeos
+            </p>
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Vídeo 1 -->
+            <div class="bg-gray-100 rounded-xl overflow-hidden shadow-lg">
+                <div class="relative aspect-video bg-gray-200">
+                    <video 
+                        class="w-full h-full object-cover" 
+                        poster="/images/video-thumb-1.jpg"
+                        controls
+                        preload="metadata"
+                        loading="lazy">
+                        <source src="/videos/trabalho-guitarra.mp4" type="video/mp4">
+                        Seu navegador não suporta vídeos HTML5.
+                    </video>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-primary-800 mb-2">Restauração Guitarra Les Paul</h3>
+                    <p class="text-gray-600 text-sm">Processo completo de restauração de uma Les Paul dos anos 70</p>
+                </div>
+            </div>
+            
+            <!-- Vídeo 2 -->
+            <div class="bg-gray-100 rounded-xl overflow-hidden shadow-lg">
+                <div class="relative aspect-video bg-gray-200">
+                    <video 
+                        class="w-full h-full object-cover" 
+                        poster="/images/video-thumb-2.jpg"
+                        controls
+                        preload="metadata"
+                        loading="lazy">
+                        <source src="/videos/setup-baixo.mp4" type="video/mp4">
+                        Seu navegador não suporta vídeos HTML5.
+                    </video>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-primary-800 mb-2">Setup Completo em Baixo</h3>
+                    <p class="text-gray-600 text-sm">Demonstração do processo de setup profissional</p>
+                </div>
+            </div>
+            
+            <!-- Vídeo 3 -->
+            <div class="bg-gray-100 rounded-xl overflow-hidden shadow-lg">
+                <div class="relative aspect-video bg-gray-200">
+                    <video 
+                        class="w-full h-full object-cover" 
+                        poster="/images/video-thumb-3.jpg"
+                        controls
+                        preload="metadata"
+                        loading="lazy">
+                        <source src="/videos/troca-trastes.mp4" type="video/mp4">
+                        Seu navegador não suporta vídeos HTML5.
+                    </video>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-primary-800 mb-2">Troca de Trastes</h3>
+                    <p class="text-gray-600 text-sm">Técnica especializada para troca de trastes</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Depoimentos -->
+<section class="py-20 bg-primary-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-serif font-bold text-primary-800 mb-4">O que Nossos Clientes Dizem</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Veja alguns depoimentos de músicos que confiaram seus instrumentos aos nossos cuidados
+            </p>
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Depoimento 1 -->
+            <div class="bg-white rounded-xl p-8 shadow-lg">
+                <div class="flex text-gold-400 mb-4">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                    </svg>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                    </svg>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                    </svg>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                    </svg>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                    </svg>
+                </div>
+                <p class="text-gray-600 mb-6">
+                    "Trabalho excepcional! Minha Stratocaster dos anos 80 estava com vários problemas e ficou como nova. 
+                    O João e a equipe são verdadeiros artistas."
+                </p>
+                <div class="flex items-center">
+                    <img src="/images/cliente-1.jpg" alt="Ricardo Santos" class="w-12 h-12 rounded-full mr-4">
+                    <div>
+                        <h4 class="font-semibold text-primary-800">Ricardo Santos</h4>
+                        <p class="text-sm text-gray-600">Guitarrista</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Depoimento 2 -->
+            <div class="bg-white rounded-xl p-8 shadow-lg">
+                <div class="flex text-gold-400 mb-4">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                    </svg>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                    </svg>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                    </svg>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                    </svg>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                    </svg>
+                </div>
+                <p class="text-gray-600 mb-6">
+                    "Setup perfeito no meu baixo! A Ana entende muito de violões acústicos, 
+                    meu violão nunca esteve tão bem afinado e com o som tão limpo."
+                </p>
+                <div class="flex items-center">
+                    <img src="/images/cliente-2.jpg" alt="Marina Costa" class="w-12 h-12 rounded-full mr-4">
+                    <div>
+                        <h4 class="font-semibold text-primary-800">Marina Costa</h4>
+                        <p class="text-sm text-gray-600">Violonista</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Depoimento 3 -->
+            <div class="bg-white rounded-xl p-8 shadow-lg">
+                <div class="flex text-gold-400 mb-4">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                    </svg>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                    </svg>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                    </svg>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                    </svg>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                    </svg>
+                </div>
+                <p class="text-gray-600 mb-6">
+                    "Atendimento personalizado e resultado impecável. O Carlos é expert em baixos, 
+                    meu Fender Jazz ficou com um som incrível depois do setup."
+                </p>
+                <div class="flex items-center">
+                    <img src="/images/cliente-3.jpg" alt="Pedro Oliveira" class="w-12 h-12 rounded-full mr-4">
+                    <div>
+                        <h4 class="font-semibold text-primary-800">Pedro Oliveira</h4>
+                        <p class="text-sm text-gray-600">Baixista</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div id="lightbox" class="fixed inset-0 bg-black/90 z-50 hidden">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="relative max-w-4xl w-full">
+            <button id="closeLightbox" class="absolute -top-10 right-0 text-white text-2xl hover:text-gold-400">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            <div id="lightboxContent" class="bg-white rounded-xl overflow-hidden">
+                <!-- Conteúdo será inserido via JavaScript -->
+            </div>
+        </div>
+    </div>
+</div>

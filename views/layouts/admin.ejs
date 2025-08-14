@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%- title %></title>
+    <meta name="description" content="<%- description %>">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <% if (typeof admin !== 'undefined') { %>
+        <nav class="admin-sidebar">
+            <div class="admin-logo">
+                <h2>Prime Luthieria</h2>
+                <p>Admin Panel</p>
+            </div>
+            <ul class="admin-menu">
+                <li><a href="/admin/dashboard" class="admin-link">Dashboard</a></li>
+                <li><a href="/admin/site-info" class="admin-link">Informações Gerais</a></li>
+                <li><a href="/admin/hero" class="admin-link">Página Hero</a></li>
+                <li><a href="/admin/about" class="admin-link">Página Sobre</a></li>
+                <li><a href="/admin/team" class="admin-link">Equipe</a></li>
+                <li><a href="/admin/services" class="admin-link">Serviços</a></li>
+                <li><a href="/admin/logout" class="admin-link logout">Sair</a></li>
+            </ul>
+        </nav>
+        <main class="admin-main">
+            <div class="admin-header">
+                <h1><%- title %></h1>
+            </div>
+            <div class="admin-content">
+                <%- body %>
+            </div>
+        </main>
+        <% } else { %>
+        <main class="admin-login-main">
+            <%- body %>
+        </main>
+        <% } %>
+    </div>
+</body>
+</html>

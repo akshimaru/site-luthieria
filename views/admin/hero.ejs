@@ -1,0 +1,49 @@
+<% if (typeof success !== 'undefined' && success) { %>
+<div class="alert alert-success">
+    Informações da página Hero salvas com sucesso!
+</div>
+<% } %>
+
+<% if (typeof error !== 'undefined' && error) { %>
+<div class="alert alert-error">
+    Erro ao salvar informações. Tente novamente.
+</div>
+<% } %>
+
+<form method="POST" action="/admin/hero" class="admin-form">
+    <div class="form-section">
+        <h3>Seção Hero (Página Inicial)</h3>
+        <p>Configure o conteúdo da seção principal da página inicial.</p>
+        
+        <div class="form-group">
+            <label for="title">Título Principal:</label>
+            <input type="text" id="title" name="title" value="<%= siteData.hero.title %>" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="subtitle">Subtítulo:</label>
+            <textarea id="subtitle" name="subtitle" rows="3" required><%= siteData.hero.subtitle %></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="background_image">URL da Imagem de Fundo:</label>
+            <input type="url" id="background_image" name="background_image" value="<%= siteData.hero.background_image %>" required>
+            <small>Use uma URL do Unsplash ou outra fonte de imagem de alta qualidade</small>
+        </div>
+    </div>
+    
+    <div class="form-actions">
+        <button type="submit" class="btn btn-success">Salvar Alterações</button>
+        <a href="/admin/dashboard" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form>
+
+<div class="form-section">
+    <h3>Pré-visualização</h3>
+    <div style="background-image: url('<%= siteData.hero.background_image %>'); background-size: cover; background-position: center; height: 200px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">
+        <div style="text-align: center;">
+            <h2 style="margin: 0 0 10px 0;"><%= siteData.hero.title %></h2>
+            <p style="margin: 0; max-width: 600px;"><%= siteData.hero.subtitle %></p>
+        </div>
+    </div>
+</div>
