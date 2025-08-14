@@ -3,16 +3,19 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package.json first for better caching
+COPY package.json ./
 
 # Install dependencies
 RUN npm install --production
 
-# Copy application code
+# Copy all application files
 COPY . .
 
-# Run initialization script to ensure data exists
+# Create uploads directory
+RUN mkdir -p uploads
+
+# Initialize data
 RUN node init.js
 
 # Expose port
