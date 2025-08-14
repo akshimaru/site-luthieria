@@ -7,10 +7,6 @@ const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 require('dotenv').config();
 
-// Validar variáveis de ambiente
-const { validateEnv } = require('./config/env-validator');
-validateEnv();
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -38,13 +34,11 @@ app.use(helmet({
   }
 }));
 
-// Rate limiting - mais rigoroso em produção
+// Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
-  max: process.env.NODE_ENV === 'production' ? 100 : 1000, // 100 req/IP em produção
-  message: 'Muitas requisições deste IP, tente novamente em alguns minutos.',
-  standardHeaders: true,
-  legacyHeaders: false,
+  max: 100, // máximo 100 requests por IP
+  message: 'Muitas requisições deste IP, tente novamente em alguns minutos.'
 });
 app.use(limiter);
 
@@ -53,15 +47,12 @@ app.use(compression());
 
 // Configuração de sessões
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'prime-luthieria-fallback-secret',
+  secret: process.env.SESSION_SECRET || 'prime-luthieria-secret-2025',
   resave: false,
   saveUninitialized: false,
-  name: 'prime.session.id',
   cookie: {
-    secure: process.env.NODE_ENV === 'production' && process.env.SECURE_COOKIES === 'true',
-    httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000, // 24 horas
-    sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax'
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 24 * 60 * 60 * 1000 // 24 horas
   }
 }));
 
@@ -118,16 +109,9 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Servidor Prime Luthieria iniciado`);
-  console.log(`📡 Porta: ${PORT}`);
-  console.log(`🌍 Ambiente: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🐳 Host: 0.0.0.0 (Docker/VPS Ready)`);
-  
-  if (process.env.NODE_ENV === 'production') {
-    console.log(`✅ Aplicação rodando em modo PRODUÇÃO`);
-  } else {
-    console.log(`🔧 Modo desenvolvimento - Acesse: http://localhost:${PORT}`);
-  }
+  console.log(`Servidor rodando na porta ${PORT}`);
+  console.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`Servidor pronto!`);
 });
 
 // Graceful shutdown

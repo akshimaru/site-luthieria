@@ -4,15 +4,10 @@
   "description": "Site oficial da Prime Luthieria - Especialistas em manutenção e reparos de instrumentos musicais",
   "main": "app.js",
   "scripts": {
-    "start": "NODE_ENV=production node app.js",
-    "start:prod": "NODE_ENV=production PORT=3000 node app.js",
-    "start:docker": "node app.js",
-    "dev": "NODE_ENV=development nodemon app.js",
-    "build": "echo 'Build completed - aplicação pronta para produção'",
-    "validate": "node -e \"require('./config/env-validator').validateEnv()\"",
-    "test": "echo 'No tests specified'",
-    "docker:build": "docker build -t prime-luthieria .",
-    "docker:run": "docker run -p 3000:3000 -e NODE_ENV=production -e PORT=3000 prime-luthieria"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "build": "echo 'Build completed'",
+    "test": "echo 'No tests specified'"
   },
   "keywords": [
     "luthieria",

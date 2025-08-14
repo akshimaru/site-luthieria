@@ -1,12 +1,7 @@
-# Use Node.js official image
-FROM node:18-alpine
+# Build stage
+FROM node:18-alpine AS builder
 
-# Set working directory
 WORKDIR /app
-
-# Set environment variables
-ENV NODE_ENV=production
-ENV PORT=3000
 
 # Copy package files
 COPY package*.json ./
@@ -17,15 +12,25 @@ RUN npm ci --only=production && npm cache clean --force
 # Copy application code
 COPY . .
 
-# Run initialization script
+# Run initialization script to ensure data exists
 RUN node init.js
 
+# Production stage
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy built application from builder stage
+COPY --from=builder /app .
+
 # Create a non-root user
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S appuser -u 1001
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S appuser -u 1001 -G nodejs
 
 # Change ownership of the app directory
 RUN chown -R appuser:nodejs /app
+
+# Switch to non-root user
 USER appuser
 
 # Expose port
@@ -36,4 +41,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
   CMD node healthcheck.js
 
 # Start the application
-CMD ["npm", "start"]
+CMD ["node", "app.js"]
