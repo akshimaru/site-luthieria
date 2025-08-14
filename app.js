@@ -11,9 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Trust proxy para VPS/EasyPanel
-if (process.env.NODE_ENV === 'production') {
-  app.set('trust proxy', 1);
-}
+app.set('trust proxy', 1);
 
 // Importar rotas
 const indexRoutes = require('./routes/index');
@@ -34,11 +32,17 @@ app.use(helmet({
   }
 }));
 
-// Rate limiting
+// Rate limiting configurado para proxies
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
   max: 100, // máximo 100 requests por IP
-  message: 'Muitas requisições deste IP, tente novamente em alguns minutos.'
+  message: 'Muitas requisições deste IP, tente novamente em alguns minutos.',
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  // Custom key generator para lidar com proxies
+  keyGenerator: (req) => {
+    return req.ip || req.connection.remoteAddress || 'unknown';
+  }
 });
 app.use(limiter);
 
