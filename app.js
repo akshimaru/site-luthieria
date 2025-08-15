@@ -15,35 +15,37 @@ app.set('trust proxy', 1);
 
 // Servir arquivos estáticos PRIMEIRO (ANTES de outros middlewares)
 app.use('/css', express.static(path.join(__dirname, 'public/css'), {
-  maxAge: '1d',
+  maxAge: '1h',
   setHeaders: (res, path) => {
     res.setHeader('Content-Type', 'text/css; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, max-age=86400');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
   }
 }));
 
 app.use('/js', express.static(path.join(__dirname, 'public/js'), {
-  maxAge: '1d',
+  maxAge: '1h',
   setHeaders: (res, path) => {
     res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, max-age=86400');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
   }
 }));
 
 app.use('/images', express.static(path.join(__dirname, 'public/images'), {
-  maxAge: '7d',
+  maxAge: '1d',
   setHeaders: (res, path) => {
-    res.setHeader('Cache-Control', 'public, max-age=604800');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
   }
 }));
 
 app.use(express.static(path.join(__dirname, 'public'), {
-  maxAge: '1d',
+  maxAge: '1h',
   setHeaders: (res, path) => {
     if (path.endsWith('.css')) {
       res.setHeader('Content-Type', 'text/css; charset=utf-8');
-      res.setHeader('Cache-Control', 'public, max-age=86400');
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+      res.setHeader('Access-Control-Allow-Origin', '*');
     } else if (path.endsWith('.js')) {
       res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
     }
@@ -55,19 +57,9 @@ const indexRoutes = require('./routes/index');
 const contactRoutes = require('./routes/contact');
 const adminRoutes = require('./routes/admin');
 
-// Middlewares de segurança (CSP mais permissivo)
+// Middlewares de segurança (CSP desabilitado temporariamente para debug)
 app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com", "fonts.gstatic.com", "data:"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://www.google.com", "https://www.gstatic.com", "https://www.googletagmanager.com"],
-      imgSrc: ["'self'", "data:", "https:", "blob:"],
-      frameSrc: ["https://www.google.com"],
-      connectSrc: ["'self'", "https:"]
-    }
-  }
+  contentSecurityPolicy: false
 }));
 
 // Rate limiting configurado para proxies
