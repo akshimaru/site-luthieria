@@ -13,21 +13,59 @@ const PORT = process.env.PORT || 3000;
 // Trust proxy para VPS/EasyPanel
 app.set('trust proxy', 1);
 
+// Servir arquivos estáticos PRIMEIRO (ANTES de outros middlewares)
+app.use('/css', express.static(path.join(__dirname, 'public/css'), {
+  maxAge: '1d',
+  setHeaders: (res, path) => {
+    res.setHeader('Content-Type', 'text/css; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
+}));
+
+app.use('/js', express.static(path.join(__dirname, 'public/js'), {
+  maxAge: '1d',
+  setHeaders: (res, path) => {
+    res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+  }
+}));
+
+app.use('/images', express.static(path.join(__dirname, 'public/images'), {
+  maxAge: '7d',
+  setHeaders: (res, path) => {
+    res.setHeader('Cache-Control', 'public, max-age=604800');
+  }
+}));
+
+app.use(express.static(path.join(__dirname, 'public'), {
+  maxAge: '1d',
+  setHeaders: (res, path) => {
+    if (path.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css; charset=utf-8');
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+    } else if (path.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+    }
+  }
+}));
+
 // Importar rotas
 const indexRoutes = require('./routes/index');
 const contactRoutes = require('./routes/contact');
 const adminRoutes = require('./routes/admin');
 
-// Middlewares de segurança
+// Middlewares de segurança (CSP mais permissivo)
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "fonts.gstatic.com", "data:"],
       scriptSrc: ["'self'", "'unsafe-inline'", "https://www.google.com", "https://www.gstatic.com", "https://www.googletagmanager.com"],
-      imgSrc: ["'self'", "data:", "https:"],
-      frameSrc: ["https://www.google.com"]
+      imgSrc: ["'self'", "data:", "https:", "blob:"],
+      frameSrc: ["https://www.google.com"],
+      connectSrc: ["'self'", "https:"]
     }
   }
 }));
@@ -66,14 +104,7 @@ app.set('layout', 'layout');
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Middlewares
-app.use(express.static(path.join(__dirname, 'public'), {
-  setHeaders: (res, path) => {
-    if (path.endsWith('.css')) {
-      res.setHeader('Content-Type', 'text/css');
-    }
-  }
-}));
+// Middlewares de parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
