@@ -13,43 +13,9 @@ const PORT = process.env.PORT || 3000;
 // Trust proxy para VPS/EasyPanel
 app.set('trust proxy', 1);
 
-// Servir arquivos estáticos PRIMEIRO (ANTES de outros middlewares)
-app.use('/css', express.static(path.join(__dirname, 'public/css'), {
-  maxAge: '1h',
-  setHeaders: (res, path) => {
-    res.setHeader('Content-Type', 'text/css; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, max-age=3600');
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('X-Content-Type-Options', 'nosniff');
-  }
-}));
-
-app.use('/js', express.static(path.join(__dirname, 'public/js'), {
-  maxAge: '1h',
-  setHeaders: (res, path) => {
-    res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, max-age=3600');
-  }
-}));
-
-app.use('/images', express.static(path.join(__dirname, 'public/images'), {
-  maxAge: '1d',
-  setHeaders: (res, path) => {
-    res.setHeader('Cache-Control', 'public, max-age=86400');
-  }
-}));
-
+// Servir arquivos estáticos - CONFIGURAÇÃO SIMPLES
 app.use(express.static(path.join(__dirname, 'public'), {
-  maxAge: '1h',
-  setHeaders: (res, path) => {
-    if (path.endsWith('.css')) {
-      res.setHeader('Content-Type', 'text/css; charset=utf-8');
-      res.setHeader('Cache-Control', 'public, max-age=3600');
-      res.setHeader('Access-Control-Allow-Origin', '*');
-    } else if (path.endsWith('.js')) {
-      res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
-    }
-  }
+  maxAge: '1h'
 }));
 
 // Importar rotas
@@ -57,22 +23,17 @@ const indexRoutes = require('./routes/index');
 const contactRoutes = require('./routes/contact');
 const adminRoutes = require('./routes/admin');
 
-// Middlewares de segurança (CSP desabilitado temporariamente para debug)
+// Segurança básica - SEM CSP
 app.use(helmet({
-  contentSecurityPolicy: false
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false
 }));
 
-// Rate limiting configurado para proxies
+// Rate limiting simples
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
   max: 100, // máximo 100 requests por IP
-  message: 'Muitas requisições deste IP, tente novamente em alguns minutos.',
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-  // Custom key generator para lidar com proxies
-  keyGenerator: (req) => {
-    return req.ip || req.connection.remoteAddress || 'unknown';
-  }
+  message: 'Muitas requisições deste IP, tente novamente em alguns minutos.'
 });
 app.use(limiter);
 
