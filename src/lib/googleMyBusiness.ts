@@ -64,7 +64,7 @@ class GoogleMyBusinessService {
         client_secret: this.config.clientSecret,
         code,
         grant_type: 'authorization_code',
-        redirect_uri: `${window.location.origin}/admin/google-auth`
+        redirect_uri: `${window.location.origin}/admin/google/callback`
       });
 
       return response.data;
