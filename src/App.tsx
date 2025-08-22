@@ -12,7 +12,6 @@ import { Contact } from './pages/Contact'
 import { AdminLogin } from './pages/admin/Login'
 import { AdminDashboard } from './pages/admin/Dashboard'
 import { AdminRoute } from './components/AdminRoute'
-import GoogleAuthCallback from './pages/admin/GoogleAuthCallback'
 
 function App() {
   return (
@@ -22,7 +21,6 @@ function App() {
           <Routes>
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin/google-auth" element={<GoogleAuthCallback />} />
             <Route 
               path="/admin/*" 
               element={
