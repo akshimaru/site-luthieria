@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import toast from 'react-hot-toast'
 import { supabase, Testimonial } from '../../lib/supabase'
+import GoogleIntegration from '../../components/GoogleIntegration'
 
 const testimonialSchema = z.object({
   client_name: z.string().min(1, 'Nome do cliente é obrigatório'),
@@ -404,6 +405,11 @@ const TestimonialsList = () => {
           </div>
           <p className="text-gray-600">5 Estrelas</p>
         </div>
+      </div>
+
+      {/* Google Integration */}
+      <div className="mb-8">
+        <GoogleIntegration onReviewsUpdated={fetchTestimonials} />
       </div>
 
       {/* Testimonials List */}
