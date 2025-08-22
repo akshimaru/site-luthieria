@@ -3,8 +3,7 @@ FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-
-# Declare build arguments
+# Declare build arguments for all environment variables
 ARG VITE_SUPABASE_URL
 ARG VITE_SUPABASE_ANON_KEY
 ARG VITE_APP_ENV=production
@@ -20,33 +19,24 @@ ENV VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
 ENV VITE_GOOGLE_CLIENT_SECRET=$VITE_GOOGLE_CLIENT_SECRET
 ENV VITE_GOOGLE_MY_BUSINESS_LOCATION_ID=$VITE_GOOGLE_MY_BUSINESS_LOCATION_ID
 
-# Copy package files first (for better Docker layer caching)
+# Copy package files and install dependencies
 COPY package*.json ./
+RUN npm ci --only=production=false
 
-# Install ALL dependencies (dev + prod for build process)
-RUN npm ci
-
-# Copy source code
+# Copy source code and build
 COPY . .
-
-# Build the application
 RUN npm run build
 
 # Production stage
 FROM nginx:alpine AS production
 
-# Copy custom nginx config
+# Copy nginx config and built files
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Copy built application from builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Add healthcheck
+# Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:80/ || exit 1
 
-# Expose port
 EXPOSE 80
-
-# Start nginx
 CMD ["nginx", "-g", "daemon off;"]
