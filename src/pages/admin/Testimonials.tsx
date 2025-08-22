@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import toast from 'react-hot-toast'
 import { supabase, Testimonial } from '../../lib/supabase'
-// GoogleIntegration temporariamente removido para estabilidade de deploy
+import GoogleIntegration from '../../components/GoogleIntegration'
 
 const testimonialSchema = z.object({
   client_name: z.string().min(1, 'Nome do cliente é obrigatório'),
@@ -407,18 +407,9 @@ const TestimonialsList = () => {
         </div>
       </div>
 
-      {/* Google My Business Integration - Será reativado após deploy estabilizar */}
-      <div className="mb-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <div className="flex items-center">
-          <div className="text-blue-600 mr-3">🔗</div>
-          <div>
-            <h4 className="font-semibold text-blue-900">Integração Google My Business</h4>
-            <p className="text-blue-700 text-sm">
-              Funcionalidade temporariamente desabilitada para estabilização do deploy. 
-              Será reativada em breve para sincronização automática de avaliações.
-            </p>
-          </div>
-        </div>
+      {/* Google My Business Integration */}
+      <div className="mb-8">
+        <GoogleIntegration onReviewsUpdated={fetchTestimonials} />
       </div>
 
       {/* Testimonials List */}

@@ -44,7 +44,7 @@ class GoogleMyBusinessService {
 
     const params = new URLSearchParams({
       client_id: this.config.clientId,
-      redirect_uri: `${window.location.origin}/admin/google-auth`,
+      redirect_uri: `${window.location.origin}/admin/google/callback`,
       scope: scopes,
       response_type: 'code',
       access_type: 'offline',
