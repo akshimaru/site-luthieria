@@ -7,6 +7,7 @@ import { z } from 'zod'
 import toast from 'react-hot-toast'
 import { supabase, Testimonial } from '../../lib/supabase'
 import GoogleIntegration from '../../components/GoogleIntegration'
+import LocationFinder from '../../components/LocationFinder'
 
 const testimonialSchema = z.object({
   client_name: z.string().min(1, 'Nome do cliente é obrigatório'),
@@ -410,6 +411,11 @@ const TestimonialsList = () => {
       {/* Google My Business Integration */}
       <div className="mb-8">
         <GoogleIntegration onReviewsUpdated={fetchTestimonials} />
+      </div>
+
+      {/* Location Finder - Descobrir Location ID */}
+      <div className="mb-8">
+        <LocationFinder />
       </div>
 
       {/* Testimonials List */}
