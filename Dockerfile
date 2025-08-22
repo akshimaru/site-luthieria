@@ -21,11 +21,11 @@ ENV VITE_GOOGLE_MY_BUSINESS_LOCATION_ID=$VITE_GOOGLE_MY_BUSINESS_LOCATION_ID
 
 # Copy package files and install dependencies
 COPY package*.json ./
-RUN npm ci --only=production=false --frozen-lockfile
+RUN npm ci
 
 # Copy source code and build
 COPY . .
-RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build
+RUN npm run build
 
 # Production stage
 FROM nginx:alpine AS production
@@ -33,10 +33,6 @@ FROM nginx:alpine AS production
 # Copy nginx config and built files
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:80/ || exit 1
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
