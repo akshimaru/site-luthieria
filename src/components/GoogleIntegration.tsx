@@ -1,6 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import googleMyBusinessService from '../lib/googleMyBusiness';
+import React, { useState, useEffect, useCallback } from 'react';
 import toast from 'react-hot-toast';
+
+// Import dinâmico para evitar problemas no build
+const loadGoogleService = async () => {
+  try {
+    const module = await import('../lib/googleMyBusiness');
+    return module.default;
+  } catch (error) {
+    console.error('Erro ao carregar serviço Google:', error);
+    return null;
+  }
+};
 
 interface GoogleIntegrationProps {
   onReviewsUpdated?: () => void;
@@ -12,45 +22,66 @@ const GoogleIntegration: React.FC<GoogleIntegrationProps> = ({ onReviewsUpdated 
   const [locations, setLocations] = useState<any[]>([]);
   const [selectedLocationId, setSelectedLocationId] = useState('');
   const [syncStats, setSyncStats] = useState<{ imported: number; skipped: number } | null>(null);
+  const [googleService, setGoogleService] = useState<any>(null);
 
-  useEffect(() => {
-    // Verifica se já está autenticado
-    const { accessToken } = googleMyBusinessService.getStoredTokens();
-    if (accessToken) {
-      setIsAuthenticated(true);
-      loadLocations();
+  const initializeService = useCallback(async () => {
+    const service = await loadGoogleService();
+    if (service) {
+      setGoogleService(service);
+      // Verifica se já está autenticado
+      const { accessToken } = service.getStoredTokens();
+      if (accessToken) {
+        setIsAuthenticated(true);
+        await loadLocations(service);
+      }
     }
   }, []);
 
+  useEffect(() => {
+    initializeService();
+  }, [initializeService]);
+
   const handleAuthenticate = () => {
-    const authUrl = googleMyBusinessService.getAuthUrl();
-    window.location.href = authUrl;
+    if (!googleService) {
+      toast.error('Serviço Google não disponível');
+      return;
+    }
+    
+    try {
+      const authUrl = googleService.getAuthUrl();
+      window.location.href = authUrl;
+    } catch (error) {
+      console.error('Erro ao autenticar:', error);
+      toast.error('Erro ao iniciar autenticação');
+    }
   };
 
-  const loadLocations = async () => {
+  const loadLocations = async (service = googleService) => {
+    if (!service) return;
+    
     try {
       setIsLoading(true);
-      const { accessToken, refreshToken } = googleMyBusinessService.getStoredTokens();
+      const { accessToken, refreshToken } = service.getStoredTokens();
       
       if (!accessToken) return;
 
       let currentAccessToken = accessToken;
 
       try {
-        const locationsList = await googleMyBusinessService.getLocations(currentAccessToken);
+        const locationsList = await service.getLocations(currentAccessToken);
         setLocations(locationsList);
       } catch (error) {
         // Tenta renovar o token se expirou
         if (refreshToken) {
           try {
-            currentAccessToken = await googleMyBusinessService.refreshAccessToken(refreshToken);
-            googleMyBusinessService.saveTokens(currentAccessToken);
-            const locationsList = await googleMyBusinessService.getLocations(currentAccessToken);
+            currentAccessToken = await service.refreshAccessToken(refreshToken);
+            service.saveTokens(currentAccessToken);
+            const locationsList = await service.getLocations(currentAccessToken);
             setLocations(locationsList);
           } catch (refreshError) {
             console.error('Erro ao renovar token:', refreshError);
             setIsAuthenticated(false);
-            googleMyBusinessService.clearTokens();
+            service.clearTokens();
             toast.error('Sessão expirada. Faça login novamente.');
           }
         }
@@ -64,6 +95,11 @@ const GoogleIntegration: React.FC<GoogleIntegrationProps> = ({ onReviewsUpdated 
   };
 
   const handleSyncReviews = async () => {
+    if (!googleService) {
+      toast.error('Serviço Google não disponível');
+      return;
+    }
+    
     if (!selectedLocationId && locations.length > 1) {
       toast.error('Selecione uma localização');
       return;
@@ -71,7 +107,7 @@ const GoogleIntegration: React.FC<GoogleIntegrationProps> = ({ onReviewsUpdated 
 
     try {
       setIsLoading(true);
-      const { accessToken, refreshToken } = googleMyBusinessService.getStoredTokens();
+      const { accessToken, refreshToken } = googleService.getStoredTokens();
       
       if (!accessToken) {
         toast.error('Não autenticado');
@@ -81,7 +117,7 @@ const GoogleIntegration: React.FC<GoogleIntegrationProps> = ({ onReviewsUpdated 
       let currentAccessToken = accessToken;
 
       try {
-        const stats = await googleMyBusinessService.syncReviewsToSupabase(
+        const stats = await googleService.syncReviewsToSupabase(
           currentAccessToken, 
           selectedLocationId || locations[0]?.name?.split('/').pop()
         );
@@ -92,9 +128,9 @@ const GoogleIntegration: React.FC<GoogleIntegrationProps> = ({ onReviewsUpdated 
         // Tenta renovar o token se expirou
         if (refreshToken) {
           try {
-            currentAccessToken = await googleMyBusinessService.refreshAccessToken(refreshToken);
-            googleMyBusinessService.saveTokens(currentAccessToken);
-            const stats = await googleMyBusinessService.syncReviewsToSupabase(
+            currentAccessToken = await googleService.refreshAccessToken(refreshToken);
+            googleService.saveTokens(currentAccessToken);
+            const stats = await googleService.syncReviewsToSupabase(
               currentAccessToken, 
               selectedLocationId || locations[0]?.name?.split('/').pop()
             );
@@ -104,7 +140,7 @@ const GoogleIntegration: React.FC<GoogleIntegrationProps> = ({ onReviewsUpdated 
           } catch (refreshError) {
             console.error('Erro ao renovar token:', refreshError);
             setIsAuthenticated(false);
-            googleMyBusinessService.clearTokens();
+            googleService.clearTokens();
             toast.error('Sessão expirada. Faça login novamente.');
           }
         } else {
@@ -120,7 +156,9 @@ const GoogleIntegration: React.FC<GoogleIntegrationProps> = ({ onReviewsUpdated 
   };
 
   const handleDisconnect = () => {
-    googleMyBusinessService.clearTokens();
+    if (googleService) {
+      googleService.clearTokens();
+    }
     setIsAuthenticated(false);
     setLocations([]);
     setSelectedLocationId('');

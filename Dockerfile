@@ -21,11 +21,11 @@ ENV VITE_GOOGLE_MY_BUSINESS_LOCATION_ID=$VITE_GOOGLE_MY_BUSINESS_LOCATION_ID
 
 # Copy package files and install dependencies
 COPY package*.json ./
-RUN npm ci --only=production=false
+RUN npm ci --only=production=false --frozen-lockfile
 
 # Copy source code and build
 COPY . .
-RUN npm run build
+RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
 # Production stage
 FROM nginx:alpine AS production
