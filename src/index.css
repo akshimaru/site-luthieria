@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #92400e;
+  --color-secondary: #f59e0b;
+  --color-accent: #d97706;
+  --color-text: #1f2937;
+  --color-background: #ffffff;
+  --color-border: #e5e7eb;
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Smooth transitions */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Focus styles */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+/* Animation for loading states */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Custom button styles */
+.btn-primary {
+  @apply bg-theme-primary text-white px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition-opacity;
+}
+
+.btn-secondary {
+  @apply bg-theme-secondary text-white px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition-opacity;
+}
+
+.btn-outline {
+  @apply border-2 border-theme-primary text-theme-primary px-4 py-2 rounded-lg font-semibold hover:bg-theme-primary hover:text-white transition-colors;
+}
+
+/* Form styles */
+.form-input {
+  @apply w-full px-4 py-2 border border-theme-border rounded-lg focus:ring-2 focus:ring-theme-primary focus:border-theme-primary transition-colors;
+}
+
+.form-textarea {
+  @apply w-full px-4 py-2 border border-theme-border rounded-lg focus:ring-2 focus:ring-theme-primary focus:border-theme-primary transition-colors resize-none;
+}
+
+.form-select {
+  @apply w-full px-4 py-2 border border-theme-border rounded-lg focus:ring-2 focus:ring-theme-primary focus:border-theme-primary transition-colors;
+}
+
+/* Card styles */
+.card {
+  @apply bg-theme-background rounded-lg shadow-sm border border-theme-border;
+}
+
+.card-hover {
+  @apply card hover:shadow-md transition-shadow;
+}
+
+/* Badge styles */
+.badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.badge-primary {
+  @apply badge bg-theme-primary text-white;
+}
+
+.badge-secondary {
+  @apply badge bg-theme-secondary text-white;
+}
+
+.badge-success {
+  @apply badge bg-green-100 text-green-800;
+}
+
+.badge-warning {
+  @apply badge bg-yellow-100 text-yellow-800;
+}
+
+.badge-error {
+  @apply badge bg-red-100 text-red-800;
+}
+
+/* Admin Alert Animations */
+@keyframes shrink {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-shrink {
+  animation: shrink linear forwards;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+/* Responsive utilities */
+@media (max-width: 640px) {
+  .mobile-hidden {
+    display: none;
+  }
+}
+
+@media (min-width: 641px) {
+  .mobile-only {
+    display: none;
+  }
+}

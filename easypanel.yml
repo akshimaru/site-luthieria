@@ -1,0 +1,48 @@
+name: prime-luthieria
+description: Sistema CMS Prime Luthieria - Manutenção de Instrumentos Musicais
+
+services:
+  app:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+      args:
+        VITE_SUPABASE_URL: https://jqyoxoviyyrmfszrcmbv.supabase.co
+        VITE_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxeW94b3ZpeXlybWZzenJjbWJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0ODA5NzIsImV4cCI6MjA3MTA1Njk3Mn0.ZUYsOHHInaIrnDooZ5u9xAJcnObW1Ry-3yttQ3BQ7k0
+        VITE_APP_ENV: production
+    
+    deploy:
+      replicas: 1
+      strategy: rolling
+      
+    ports:
+      - containerPort: 80
+        httpPort: 80
+    
+    resources:
+      memoryRequest: 256Mi
+      memoryLimit: 512Mi
+      cpuRequest: 200m
+      cpuLimit: 500m
+    
+    env:
+      - name: NODE_ENV
+        value: production
+      - name: VITE_SUPABASE_URL
+        value: https://jqyoxoviyyrmfszrcmbv.supabase.co
+      - name: VITE_SUPABASE_ANON_KEY
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxeW94b3ZpeXlybWZzenJjbWJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0ODA5NzIsImV4cCI6MjA3MTA1Njk3Mn0.ZUYsOHHInaIrnDooZ5u9xAJcnObW1Ry-3yttQ3BQ7k0
+    
+    healthcheck:
+      httpPath: /health
+      httpPort: 80
+      initialDelaySeconds: 30
+      periodSeconds: 30
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 3
+
+domains:
+  - host: luthieria.seudominio.com.br
+    service: app
+    port: 80
