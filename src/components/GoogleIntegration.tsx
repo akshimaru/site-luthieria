@@ -314,6 +314,29 @@ const GoogleIntegration: React.FC<GoogleIntegrationProps> = ({ onReviewsUpdated 
             </button>
           </div>
 
+          {/* Toggle Auto-Sincronização */}
+          <div className="flex items-center justify-between mb-4 p-3 bg-gray-50 rounded-lg">
+            <div>
+              <label className="text-sm font-medium text-gray-700">Sincronização Automática</label>
+              <p className="text-xs text-gray-500">Sincroniza automaticamente a cada 24 horas</p>
+            </div>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                className="sr-only"
+                checked={isAutoSyncEnabled}
+                onChange={(e) => setIsAutoSyncEnabled(e.target.checked)}
+              />
+              <div className={`w-11 h-6 rounded-full transition-colors duration-200 ease-in-out ${
+                isAutoSyncEnabled ? 'bg-green-600' : 'bg-gray-300'
+              }`}>
+                <div className={`w-5 h-5 bg-white rounded-full shadow transform transition-transform duration-200 ease-in-out ${
+                  isAutoSyncEnabled ? 'translate-x-5' : 'translate-x-0.5'
+                } mt-0.5`}></div>
+              </div>
+            </label>
+          </div>
+
           {syncStats && (
             <div className={`p-3 border rounded-md ${
               syncStats.errors > 0 
