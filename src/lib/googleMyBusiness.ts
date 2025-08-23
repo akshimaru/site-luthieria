@@ -24,6 +24,8 @@ export interface GoogleMyBusinessConfig {
 class GoogleMyBusinessService {
   private config: GoogleMyBusinessConfig;
   private baseUrl = 'https://mybusinessbusinessinformation.googleapis.com/v1';
+  private lastRequestTime = 0;
+  private readonly REQUEST_COOLDOWN = 2000; // 2 segundos entre requisições
 
   constructor() {
     this.config = {
@@ -31,6 +33,22 @@ class GoogleMyBusinessService {
       clientSecret: import.meta.env.VITE_GOOGLE_CLIENT_SECRET,
       locationId: import.meta.env.VITE_GOOGLE_MY_BUSINESS_LOCATION_ID || '',
     };
+  }
+
+  /**
+   * Aplica cooldown entre requisições para evitar rate limiting
+   */
+  private async applyCooldown(): Promise<void> {
+    const now = Date.now();
+    const timeSinceLastRequest = now - this.lastRequestTime;
+    
+    if (timeSinceLastRequest < this.REQUEST_COOLDOWN) {
+      const waitTime = this.REQUEST_COOLDOWN - timeSinceLastRequest;
+      console.log(`⏳ Aguardando ${waitTime}ms para evitar rate limiting...`);
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+    }
+    
+    this.lastRequestTime = Date.now();
   }
 
   /**
@@ -128,7 +146,15 @@ class GoogleMyBusinessService {
    * Lista as localizações do Google My Business
    */
   async getLocations(accessToken?: string): Promise<any[]> {
+    // Verifica se ainda estamos em rate limit
+    if (this.isRateLimited()) {
+      throw new Error('Rate limit ativo. Aguarde alguns minutos antes de tentar novamente.');
+    }
+
     try {
+      // Aplica cooldown para evitar rate limiting
+      await this.applyCooldown();
+      
       let validToken = accessToken;
       
       // Se não foi passado um token, obtém um válido
@@ -146,14 +172,32 @@ class GoogleMyBusinessService {
           headers: {
             Authorization: `Bearer ${validToken}`,
             'Content-Type': 'application/json'
-          }
+          },
+          timeout: 10000 // 10 segundos de timeout
         }
       );
 
       return response.data.locations || [];
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao buscar localizações:', error);
-      throw new Error('Falha ao buscar localizações do Google My Business');
+      
+      // Tratamento específico para diferentes tipos de erro
+      if (error.response) {
+        const status = error.response.status;
+        
+        if (status === 429) {
+          this.setRateLimit(5); // 5 minutos de cooldown
+          throw new Error('Muitas requisições. Aguarde 5 minutos antes de tentar novamente.');
+        } else if (status === 401 || status === 403) {
+          throw new Error('Token expirado ou inválido');
+        } else {
+          throw new Error(`Erro da API Google (${status}): ${error.response.data?.message || 'Erro desconhecido'}`);
+        }
+      } else if (error.code === 'ENOTFOUND' || error.code === 'ETIMEDOUT') {
+        throw new Error('Erro de conexão com Google. Verifique sua internet.');
+      } else {
+        throw new Error('Falha ao buscar localizações do Google My Business');
+      }
     }
   }
 
@@ -161,11 +205,14 @@ class GoogleMyBusinessService {
    * Busca avaliações do Google My Business
    */
   async getReviews(accessToken?: string, locationId?: string): Promise<GoogleReview[]> {
-    const targetLocationId = locationId || this.config.locationId;
+    let targetLocationId = locationId || this.config.locationId;
     
     if (!targetLocationId) {
       throw new Error('ID da localização não configurado');
     }
+
+    // Normaliza o locationId para diferentes formatos possíveis
+    targetLocationId = this.normalizeLocationId(targetLocationId);
 
     try {
       let validToken = accessToken;
@@ -194,6 +241,73 @@ class GoogleMyBusinessService {
       console.error('Erro ao buscar avaliações:', error);
       throw new Error('Falha ao buscar avaliações do Google My Business');
     }
+  }
+
+  /**
+   * Descobre automaticamente o Location ID correto
+   */
+  async discoverLocationId(accessToken?: string): Promise<string | null> {
+    try {
+      const locations = await this.getLocations(accessToken);
+      
+      if (locations.length === 0) {
+        console.warn('Nenhuma localização encontrada');
+        return null;
+      }
+      
+      // Se há apenas uma localização, usa ela
+      if (locations.length === 1) {
+        const locationId = locations[0].name.split('/').pop();
+        console.log('🎯 Location ID descoberto automaticamente:', locationId);
+        return locationId;
+      }
+      
+      // Se há múltiplas, tenta encontrar a que corresponde ao ID configurado
+      const configuredId = this.config.locationId;
+      if (configuredId) {
+        const matchingLocation = locations.find(loc => {
+          const locId = loc.name.split('/').pop();
+          return locId === configuredId || locId === this.normalizeLocationId(configuredId);
+        });
+        
+        if (matchingLocation) {
+          const locationId = matchingLocation.name.split('/').pop();
+          console.log('✅ Location ID encontrado nas localizações:', locationId);
+          return locationId;
+        }
+      }
+      
+      // Lista todas as localizações disponíveis
+      console.log('📍 Localizações disponíveis:');
+      locations.forEach((loc, index) => {
+        const locId = loc.name.split('/').pop();
+        console.log(`  ${index + 1}. ${loc.title || loc.displayName || 'Sem nome'} (ID: ${locId})`);
+      });
+      
+      // Retorna a primeira como fallback
+      const firstLocationId = locations[0].name.split('/').pop();
+      console.log('⚠️ Usando primeira localização como fallback:', firstLocationId);
+      return firstLocationId;
+      
+    } catch (error) {
+      console.error('Erro ao descobrir Location ID:', error);
+      return null;
+    }
+  }
+   */
+  private normalizeLocationId(locationId: string): string {
+    // Remove prefixos se existirem
+    if (locationId.startsWith('locations/')) {
+      return locationId.substring(10);
+    }
+    
+    // Se já contém accounts/, usa como está
+    if (locationId.includes('accounts/')) {
+      return locationId.split('/locations/')[1] || locationId;
+    }
+    
+    // Retorna o ID numérico limpo
+    return locationId;
   }
 
   /**
@@ -301,6 +415,25 @@ class GoogleMyBusinessService {
     localStorage.removeItem('google_access_token');
     localStorage.removeItem('google_refresh_token');
     localStorage.removeItem('google_token_timestamp');
+    localStorage.removeItem('google_rate_limit_until'); // Remove também rate limit
+  }
+
+  /**
+   * Verifica se ainda estamos em rate limit
+   */
+  isRateLimited(): boolean {
+    const rateLimitUntil = localStorage.getItem('google_rate_limit_until');
+    if (!rateLimitUntil) return false;
+    
+    return Date.now() < parseInt(rateLimitUntil);
+  }
+
+  /**
+   * Define período de rate limit
+   */
+  setRateLimit(minutes: number = 5) {
+    const rateLimitUntil = Date.now() + (minutes * 60 * 1000);
+    localStorage.setItem('google_rate_limit_until', rateLimitUntil.toString());
   }
 }
 

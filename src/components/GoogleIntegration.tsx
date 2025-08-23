@@ -63,12 +63,28 @@ const GoogleIntegration: React.FC<GoogleIntegrationProps> = ({ onReviewsUpdated 
       setIsLoading(true);
       const locationsList = await service.getLocations();
       setLocations(locationsList);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao carregar localizações:', error);
-      // Se deu erro, pode ser que o token expirou
-      setIsAuthenticated(false);
-      service.clearTokens();
-      toast.error('Sessão expirada. Faça login novamente.');
+      
+      // Tratamento específico para diferentes erros
+      if (error.message?.includes('Rate limit ativo') || error.message?.includes('Aguarde 5 minutos')) {
+        toast.error('⏳ Muitas tentativas. Aguarde 5 minutos antes de tentar novamente.');
+        return; // Não limpa os tokens para rate limiting
+      }
+      
+      if (error.message?.includes('Muitas requisições')) {
+        toast.error('⏳ Muitas tentativas. Aguarde alguns minutos antes de tentar novamente.');
+        return; // Não limpa os tokens para rate limiting
+      }
+      
+      // Outros erros que indicam problema de autenticação
+      if (error.message?.includes('Token expirado') || error.message?.includes('inválido')) {
+        setIsAuthenticated(false);
+        service.clearTokens();
+        toast.error('🔑 Sessão expirada. Faça login novamente.');
+      } else {
+        toast.error('❌ ' + (error.message || 'Erro ao carregar localizações'));
+      }
     } finally {
       setIsLoading(false);
     }
