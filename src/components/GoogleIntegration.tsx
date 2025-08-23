@@ -16,30 +16,96 @@ interface GoogleIntegrationProps {
   onReviewsUpdated?: () => void;
 }
 
+interface SyncStats {
+  imported: number;
+  skipped: number;
+  errors: number;
+  lastSync: Date;
+}
+
+interface UserInfo {
+  name: string;
+  email: string;
+  picture?: string;
+}
+
 const GoogleIntegration: React.FC<GoogleIntegrationProps> = ({ onReviewsUpdated }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [locations, setLocations] = useState<any[]>([]);
   const [selectedLocationId, setSelectedLocationId] = useState('');
-  const [syncStats, setSyncStats] = useState<{ imported: number; skipped: number } | null>(null);
+  const [syncStats, setSyncStats] = useState<SyncStats | null>(null);
   const [googleService, setGoogleService] = useState<any>(null);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [isAutoSyncEnabled, setIsAutoSyncEnabled] = useState(false);
+  const [syncInProgress, setSyncInProgress] = useState(false);
 
   const initializeService = useCallback(async () => {
     const service = await loadGoogleService();
     if (service) {
       setGoogleService(service);
+      
+      // Carrega estatísticas da última sincronização
+      const lastStats = service.getLastSyncStats();
+      if (lastStats) {
+        setSyncStats(lastStats);
+      }
+      
       // Verifica se há um token válido
       const validToken = await service.getValidAccessToken();
       if (validToken) {
         setIsAuthenticated(true);
         await loadLocations(service);
+        await loadUserInfo(service);
       }
     }
   }, []);
 
+  const loadUserInfo = async (service = googleService) => {
+    if (!service) return;
+    
+    try {
+      const info = await service.getUserInfo();
+      if (info) {
+        setUserInfo({
+          name: info.name || info.email,
+          email: info.email,
+          picture: info.picture
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao carregar informações do usuário:', error);
+    }
+  };
+
   useEffect(() => {
     initializeService();
   }, [initializeService]);
+
+  // Auto-sincronização opcional (a cada 24 horas)
+  useEffect(() => {
+    if (!isAutoSyncEnabled || !isAuthenticated || !googleService) return;
+
+    const checkAutoSync = () => {
+      const lastStats = googleService.getLastSyncStats();
+      if (!lastStats) return;
+
+      const now = new Date();
+      const lastSync = new Date(lastStats.lastSync);
+      const hoursSinceSync = (now.getTime() - lastSync.getTime()) / (1000 * 60 * 60);
+
+      // Se passou mais de 24 horas, faz sincronização automática
+      if (hoursSinceSync >= 24 && !syncInProgress) {
+        console.log('🔄 Iniciando sincronização automática...');
+        handleSyncReviews();
+      }
+    };
+
+    // Verifica a cada hora se precisa sincronizar
+    const interval = setInterval(checkAutoSync, 60 * 60 * 1000);
+    
+    return () => clearInterval(interval);
+  }, [isAutoSyncEnabled, isAuthenticated, googleService, syncInProgress]);
 
   const handleAuthenticate = () => {
     if (!googleService) {
@@ -86,22 +152,52 @@ const GoogleIntegration: React.FC<GoogleIntegrationProps> = ({ onReviewsUpdated 
     }
 
     try {
+      setSyncInProgress(true);
       setIsLoading(true);
       
+      const loadingToast = toast.loading('Sincronizando avaliações...');
+      
       const stats = await googleService.syncReviewsToSupabase(
-        undefined, // Deixa o serviço gerenciar o token automaticamente
+        undefined,
         selectedLocationId || locations[0]?.name?.split('/').pop()
       );
+      
       setSyncStats(stats);
-      toast.success(`Sincronização concluída! ${stats.imported} novas avaliações importadas.`);
+      toast.dismiss(loadingToast);
+      
+      if (stats.errors > 0) {
+        toast.success(
+          `Sincronização concluída com avisos!\n` +
+          `✅ ${stats.imported} importadas\n` +
+          `⚠️ ${stats.errors} erros\n` +
+          `ℹ️ ${stats.skipped} já existiam`,
+          { duration: 5000 }
+        );
+      } else if (stats.imported === 0) {
+        toast.success(`Nenhuma nova avaliação encontrada.\n${stats.skipped} avaliações já existiam.`);
+      } else {
+        toast.success(
+          `🎉 Sincronização concluída!\n` +
+          `✅ ${stats.imported} novas avaliações importadas\n` +
+          `ℹ️ ${stats.skipped} já existiam`
+        );
+      }
+      
       onReviewsUpdated?.();
     } catch (error) {
       console.error('Erro na sincronização:', error);
-      // Se deu erro, pode ser que o token expirou
-      setIsAuthenticated(false);
-      googleService.clearTokens();
-      toast.error('Sessão expirada. Faça login novamente.');
+      toast.error('Erro ao sincronizar avaliações. Verifique sua conexão e tente novamente.');
+      
+      // Se for erro de autenticação, desconecta
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      if (errorMessage.includes('Token') || errorMessage.includes('401')) {
+        setIsAuthenticated(false);
+        setUserInfo(null);
+        googleService.clearTokens();
+        toast.error('Sessão expirada. Faça login novamente.');
+      }
     } finally {
+      setSyncInProgress(false);
       setIsLoading(false);
     }
   };
@@ -114,12 +210,20 @@ const GoogleIntegration: React.FC<GoogleIntegrationProps> = ({ onReviewsUpdated 
     setLocations([]);
     setSelectedLocationId('');
     setSyncStats(null);
+    setUserInfo(null);
     toast.success('Desconectado do Google My Business');
   };
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm border">
-      <h3 className="text-lg font-semibold mb-4">🔗 Integração Google My Business</h3>
+      <h3 className="text-lg font-semibold mb-4 flex items-center">
+        🔗 Integração Google My Business
+        {isAuthenticated && (
+          <span className="ml-2 text-sm text-green-600 bg-green-50 px-2 py-1 rounded-full">
+            Conectado
+          </span>
+        )}
+      </h3>
       
       {!isAuthenticated ? (
         <div>
@@ -128,19 +232,42 @@ const GoogleIntegration: React.FC<GoogleIntegrationProps> = ({ onReviewsUpdated 
           </p>
           <button
             onClick={handleAuthenticate}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50 transition-colors"
             disabled={isLoading}
           >
-            {isLoading ? 'Carregando...' : '🔗 Conectar com Google'}
+            {isLoading ? (
+              <>
+                <div className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                Carregando...
+              </>
+            ) : (
+              '🔗 Conectar com Google'
+            )}
           </button>
         </div>
       ) : (
         <div>
           <div className="flex items-center justify-between mb-4">
-            <span className="text-green-600 font-medium">✅ Conectado ao Google My Business</span>
+            <div className="flex items-center space-x-3">
+              <div className="flex items-center">
+                <span className="text-green-600 font-medium">✅ Conectado ao Google My Business</span>
+              </div>
+              {userInfo && (
+                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  {userInfo.picture && (
+                    <img 
+                      src={userInfo.picture} 
+                      alt={userInfo.name} 
+                      className="w-6 h-6 rounded-full"
+                    />
+                  )}
+                  <span>{userInfo.name}</span>
+                </div>
+              )}
+            </div>
             <button
               onClick={handleDisconnect}
-              className="text-red-600 hover:text-red-700 text-sm"
+              className="text-red-600 hover:text-red-700 text-sm transition-colors"
             >
               Desconectar
             </button>
@@ -154,7 +281,7 @@ const GoogleIntegration: React.FC<GoogleIntegrationProps> = ({ onReviewsUpdated 
               <select
                 value={selectedLocationId}
                 onChange={(e) => setSelectedLocationId(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
               >
                 <option value="">Selecionar...</option>
                 {locations.map((location) => (
@@ -166,29 +293,57 @@ const GoogleIntegration: React.FC<GoogleIntegrationProps> = ({ onReviewsUpdated 
             </div>
           )}
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 mb-4">
             <button
               onClick={handleSyncReviews}
-              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50"
-              disabled={isLoading || (locations.length > 1 && !selectedLocationId)}
+              className={`px-4 py-2 rounded font-medium transition-colors disabled:opacity-50 ${
+                syncInProgress 
+                  ? 'bg-gray-400 text-white cursor-not-allowed' 
+                  : 'bg-green-600 text-white hover:bg-green-700'
+              }`}
+              disabled={isLoading || syncInProgress || (locations.length > 1 && !selectedLocationId)}
             >
-              {isLoading ? '⏳ Sincronizando...' : '🔄 Sincronizar Avaliações'}
+              {syncInProgress ? (
+                <>
+                  <div className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  Sincronizando...
+                </>
+              ) : (
+                '🔄 Sincronizar Avaliações'
+              )}
             </button>
           </div>
 
           {syncStats && (
-            <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded">
-              <p className="text-sm text-green-800">
-                ✅ Última sincronização: <strong>{syncStats.imported}</strong> importadas, <strong>{syncStats.skipped}</strong> ignoradas (já existentes)
+            <div className={`p-3 border rounded-md ${
+              syncStats.errors > 0 
+                ? 'bg-yellow-50 border-yellow-200' 
+                : 'bg-green-50 border-green-200'
+            }`}>
+              <p className={`text-sm font-medium ${
+                syncStats.errors > 0 ? 'text-yellow-800' : 'text-green-800'
+              }`}>
+                {syncStats.errors > 0 ? '⚠️' : '✅'} Última sincronização: {syncStats.lastSync.toLocaleString()}
               </p>
+              <div className="mt-1 text-sm text-gray-600 space-y-1">
+                <div>📊 <strong>{syncStats.imported}</strong> importadas, <strong>{syncStats.skipped}</strong> já existiam</div>
+                {syncStats.errors > 0 && (
+                  <div className="text-yellow-700">⚠️ <strong>{syncStats.errors}</strong> erros encontrados</div>
+                )}
+              </div>
             </div>
           )}
 
           {locations.length > 0 && (
-            <div className="mt-4">
-              <p className="text-sm text-gray-600">
-                📍 {locations.length} localização(ões) encontrada(s)
+            <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
+              <p className="text-sm text-blue-800">
+                📍 <strong>{locations.length}</strong> localização(ões) encontrada(s)
               </p>
+              {locations.length === 1 && locations[0].title && (
+                <p className="text-sm text-blue-700 mt-1">
+                  🏢 {locations[0].title}
+                </p>
+              )}
             </div>
           )}
         </div>
