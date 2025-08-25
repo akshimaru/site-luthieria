@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Routes, Route, Link, useNavigate, useParams } from 'react-router-dom'
 import { Plus, Edit, Star, Trash2, Save, ArrowLeft } from 'lucide-react'
 import { useForm } from 'react-hook-form'
@@ -6,16 +6,14 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import toast from 'react-hot-toast'
 import { supabase, Testimonial } from '../../lib/supabase'
-import GoogleIntegration from '../../components/GoogleIntegration'
-import LocationFinder from '../../components/LocationFinder'
 
 const testimonialSchema = z.object({
   client_name: z.string().min(1, 'Nome do cliente é obrigatório'),
-  client_photo: z.string().url().optional(),
+  client_photo: z.string().url().optional().or(z.literal('')),
   testimonial_text: z.string().min(10, 'Depoimento deve ter pelo menos 10 caracteres'),
-  rating: z.number().min(1).max(5).default(5),
-  is_featured: z.boolean().default(false),
-  display_order: z.number().default(0)
+  rating: z.number().min(1).max(5),
+  is_featured: z.boolean(),
+  display_order: z.number()
 })
 
 type TestimonialFormData = z.infer<typeof testimonialSchema>
@@ -408,15 +406,7 @@ const TestimonialsList = () => {
         </div>
       </div>
 
-      {/* Google My Business Integration */}
-      <div className="mb-8">
-        <GoogleIntegration onReviewsUpdated={fetchTestimonials} />
-      </div>
-
-      {/* Location Finder - Descobrir Location ID */}
-      <div className="mb-8">
-        <LocationFinder />
-      </div>
+      {/* Google My Business Integration removed */}
 
       {/* Testimonials List */}
       <div className="space-y-6">
